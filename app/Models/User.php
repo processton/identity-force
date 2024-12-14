@@ -35,6 +35,14 @@ class User extends Authenticatable
     ];
 
     /**
+     * Custom attributes appends
+     *
+     * @var list<string>
+     */
+
+    protected $appends = ['is_admin'];
+
+    /**
      * Get the attributes that should be cast.
      *
      * @return array<string, string>
@@ -46,4 +54,37 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+
+
+    /**
+     * add attribute isadmin
+     *
+     * @return bool
+     */
+    public function getIsAdminAttribute()
+    {
+        if(config('config.admin.identification') == 'email'){
+            return in_array($this->email, config('config.admin.in'));
+        }else{
+            foreach($this->teams->pluck('name') as $name){
+                if(in_array($name, config('config.admin.in'))){
+                    return true;
+                }
+            }
+            return false;
+        }
+
+    }
+
+    /**
+     * Get teams related to users
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasManyThrough
+     */
+    public function teams()
+    {
+        return $this->hasManyThrough(Team::class, UserTeam::class, 'user_id', 'id', 'id', 'team_id');
+    }
+
 }
