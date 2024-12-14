@@ -14,10 +14,12 @@ class SetupController extends Controller
         $data = $request->validate([
             'id' => 'required|string|unique:tenants,id',
             'domain' => 'required|string',
+            'theme' => 'nullable|string',
         ]);
 
         $tenant = Tenant::create([
             'id' => $data['id'],
+            'theme' => $data['theme'] ?? 'default',
         ]);
 
         $tenant->domains()->create([
