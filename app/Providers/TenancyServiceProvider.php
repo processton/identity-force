@@ -4,14 +4,22 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
+use App\Models\OAuth\AuthCode;
+use App\Models\OAuth\Client;
+use App\Models\OAuth\PersonalAccessClient;
+use App\Models\OAuth\RefreshToken;
+use App\Models\OAuth\Token;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
+use Laravel\Passport\Passport;
 use Stancl\JobPipeline\JobPipeline;
 use Stancl\Tenancy\Events;
 use Stancl\Tenancy\Jobs;
 use Stancl\Tenancy\Listeners;
 use Stancl\Tenancy\Middleware;
+use Stancl\Tenancy\Middleware\InitializeTenancyByDomain;
+use Stancl\Tenancy\Middleware\PreventAccessFromCentralDomains;
 
 class TenancyServiceProvider extends ServiceProvider
 {
@@ -103,10 +111,9 @@ class TenancyServiceProvider extends ServiceProvider
         $this->mapRoutes();
 
         $this->makeTenancyMiddlewareHighestPriority();
+        $this->loadTenancyConfigurations();
+        $this->registerTenancyPassport();
 
-        \Stancl\Tenancy\Features\TenantConfig::$storageToConfigMap = [
-            'theme' => 'theme.active',
-        ];
     }
 
     protected function bootEvents()
@@ -148,5 +155,42 @@ class TenancyServiceProvider extends ServiceProvider
         foreach (array_reverse($tenancyMiddleware) as $middleware) {
             $this->app[\Illuminate\Contracts\Http\Kernel::class]->prependToMiddlewarePriority($middleware);
         }
+    }
+
+    protected function loadTenancyConfigurations()
+    {
+
+        \Stancl\Tenancy\Features\TenantConfig::$storageToConfigMap = [
+            'theme' => 'theme.active',
+            'passport_public_key' => 'passport.public_key',
+            'passport_private_key' => 'passport.private_key',
+        ];
+    }
+
+    protected function registerTenancyPassport(){
+
+        Route::group([
+            'as' => 'passport.',
+            'middleware' => [
+                InitializeTenancyByDomain::class, // Use tenancy initialization middleware of your choice
+                PreventAccessFromCentralDomains::class,
+            ],
+            'prefix' => config('passport.path', 'oauth'),
+            'namespace' => 'Laravel\Passport\Http\Controllers',
+        ], function () {
+            $this->loadRoutesFrom(__DIR__ . "/../../vendor/laravel/passport/src/../routes/web.php");
+        });
+
+        Passport::hashClientSecrets();
+        Passport::tokensExpireIn(now()->addDays(15));
+        Passport::refreshTokensExpireIn(now()->addDays(30));
+        Passport::personalAccessTokensExpireIn(now()->addMonths(6));
+
+        Passport::useTokenModel(Token::class);
+        Passport::useRefreshTokenModel(RefreshToken::class);
+        Passport::useAuthCodeModel(AuthCode::class);
+        Passport::useClientModel(Client::class);
+        Passport::usePersonalAccessClientModel(PersonalAccessClient::class);
+
     }
 }
