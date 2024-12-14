@@ -26,6 +26,8 @@ const RAW_RUNTIME_STATE =
       [null, {\
         "packageLocation": "./",\
         "packageDependencies": [\
+          ["@tailwindcss/forms", "virtual:dc3fc578bfa5e06182a4d2be39ede0bc5b74940b1ffe0d70c26892ab140a4699787750fba175dc306292e80b4aa2c8c5f68c2a821e69b2c37e360c0dff36ff66#npm:0.5.9"],\
+          ["alpinejs", "npm:3.14.7"],\
           ["autoprefixer", "virtual:dc3fc578bfa5e06182a4d2be39ede0bc5b74940b1ffe0d70c26892ab140a4699787750fba175dc306292e80b4aa2c8c5f68c2a821e69b2c37e360c0dff36ff66#npm:10.4.20"],\
           ["axios", "npm:1.7.9"],\
           ["concurrently", "npm:9.1.0"],\
@@ -581,11 +583,53 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
+    ["@tailwindcss/forms", [\
+      ["npm:0.5.9", {\
+        "packageLocation": "../../root/.yarn/berry/cache/@tailwindcss-forms-npm-0.5.9-a168613ca4-10c0.zip/node_modules/@tailwindcss/forms/",\
+        "packageDependencies": [\
+          ["@tailwindcss/forms", "npm:0.5.9"]\
+        ],\
+        "linkType": "SOFT"\
+      }],\
+      ["virtual:dc3fc578bfa5e06182a4d2be39ede0bc5b74940b1ffe0d70c26892ab140a4699787750fba175dc306292e80b4aa2c8c5f68c2a821e69b2c37e360c0dff36ff66#npm:0.5.9", {\
+        "packageLocation": "./.yarn/__virtual__/@tailwindcss-forms-virtual-ec41eefbff/3/root/.yarn/berry/cache/@tailwindcss-forms-npm-0.5.9-a168613ca4-10c0.zip/node_modules/@tailwindcss/forms/",\
+        "packageDependencies": [\
+          ["@tailwindcss/forms", "virtual:dc3fc578bfa5e06182a4d2be39ede0bc5b74940b1ffe0d70c26892ab140a4699787750fba175dc306292e80b4aa2c8c5f68c2a821e69b2c37e360c0dff36ff66#npm:0.5.9"],\
+          ["@types/tailwindcss", null],\
+          ["mini-svg-data-uri", "npm:1.4.4"],\
+          ["tailwindcss", "npm:3.4.16"]\
+        ],\
+        "packagePeers": [\
+          "@types/tailwindcss",\
+          "tailwindcss"\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
     ["@types/estree", [\
       ["npm:1.0.6", {\
         "packageLocation": "../../root/.yarn/berry/cache/@types-estree-npm-1.0.6-b5e23f2ea2-10c0.zip/node_modules/@types/estree/",\
         "packageDependencies": [\
           ["@types/estree", "npm:1.0.6"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["@vue/reactivity", [\
+      ["npm:3.1.5", {\
+        "packageLocation": "../../root/.yarn/berry/cache/@vue-reactivity-npm-3.1.5-673eb042f8-10c0.zip/node_modules/@vue/reactivity/",\
+        "packageDependencies": [\
+          ["@vue/reactivity", "npm:3.1.5"],\
+          ["@vue/shared", "npm:3.1.5"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["@vue/shared", [\
+      ["npm:3.1.5", {\
+        "packageLocation": "../../root/.yarn/berry/cache/@vue-shared-npm-3.1.5-fdb967355c-10c0.zip/node_modules/@vue/shared/",\
+        "packageDependencies": [\
+          ["@vue/shared", "npm:3.1.5"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -604,6 +648,16 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "../../root/.yarn/berry/cache/agent-base-npm-7.1.3-b2c16e72fb-10c0.zip/node_modules/agent-base/",\
         "packageDependencies": [\
           ["agent-base", "npm:7.1.3"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["alpinejs", [\
+      ["npm:3.14.7", {\
+        "packageLocation": "../../root/.yarn/berry/cache/alpinejs-npm-3.14.7-2bd63625e2-10c0.zip/node_modules/alpinejs/",\
+        "packageDependencies": [\
+          ["alpinejs", "npm:3.14.7"],\
+          ["@vue/reactivity", "npm:3.1.5"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -1565,6 +1619,15 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
+    ["mini-svg-data-uri", [\
+      ["npm:1.4.4", {\
+        "packageLocation": "../../root/.yarn/berry/cache/mini-svg-data-uri-npm-1.4.4-929f6f1119-10c0.zip/node_modules/mini-svg-data-uri/",\
+        "packageDependencies": [\
+          ["mini-svg-data-uri", "npm:1.4.4"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
     ["minimatch", [\
       ["npm:9.0.5", {\
         "packageLocation": "../../root/.yarn/berry/cache/minimatch-npm-9.0.5-9aa93d97fa-10c0.zip/node_modules/minimatch/",\
@@ -2134,6 +2197,8 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./",\
         "packageDependencies": [\
           ["root-workspace-0b6124", "workspace:."],\
+          ["@tailwindcss/forms", "virtual:dc3fc578bfa5e06182a4d2be39ede0bc5b74940b1ffe0d70c26892ab140a4699787750fba175dc306292e80b4aa2c8c5f68c2a821e69b2c37e360c0dff36ff66#npm:0.5.9"],\
+          ["alpinejs", "npm:3.14.7"],\
           ["autoprefixer", "virtual:dc3fc578bfa5e06182a4d2be39ede0bc5b74940b1ffe0d70c26892ab140a4699787750fba175dc306292e80b4aa2c8c5f68c2a821e69b2c37e360c0dff36ff66#npm:10.4.20"],\
           ["axios", "npm:1.7.9"],\
           ["concurrently", "npm:9.1.0"],\
