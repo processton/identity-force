@@ -19,7 +19,7 @@ class NewPasswordController extends Controller
      */
     public function create(Request $request): View
     {
-        return view('auth.'.config('theme.active').'.reset-password', ['request' => $request]);
+        return view('auth.'.config('config.theme').'.reset-password', ['request' => $request]);
     }
 
     /**

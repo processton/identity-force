@@ -16,7 +16,7 @@ class ConfirmablePasswordController extends Controller
      */
     public function show(): View
     {
-        return view('auth.'.config('theme.active').'.confirm-password');
+        return view('auth.'.config('config.theme').'.confirm-password');
     }
 
     /**

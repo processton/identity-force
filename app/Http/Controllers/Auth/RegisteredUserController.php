@@ -19,7 +19,7 @@ class RegisteredUserController extends Controller
      */
     public function create(): View
     {
-        return view('auth.'.config('theme.active').'.register');
+        return view('auth.'.config('config.theme').'.register');
     }
 
     /**
