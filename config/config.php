@@ -82,6 +82,8 @@ return [
     // Embed settings
     'embed' => [
 
+        'enabled' => true,
+
         // Enable/disable login embed
         'login' => true,
 

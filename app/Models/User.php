@@ -3,6 +3,8 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -22,6 +24,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'color'
     ];
 
     /**
@@ -34,13 +37,15 @@ class User extends Authenticatable
         'remember_token',
     ];
 
+    protected $guarded = [];
+
     /**
      * Custom attributes appends
      *
      * @var list<string>
      */
 
-    protected $appends = ['is_admin'];
+    protected $appends = ['is_admin', 'profile_picture_url', 'age', 'next_birthday_in', 'joined_since'];
 
     /**
      * Get the attributes that should be cast.
@@ -55,6 +60,53 @@ class User extends Authenticatable
         ];
     }
 
+    /**
+     * add attribute profile_picture_url
+     *
+     * @return string
+     */
+
+    public function getProfilePictureUrlAttribute(){
+        if($this->profile_picture){
+            return tenant_asset($this->profile_picture);
+        }else{
+            if(!$this->color){
+                $this->color = substr(md5(rand()), 0, 6);
+                $this->save();
+            }
+            return 'https://ui-avatars.com/api/?background='.$this->color.'&&size=128&color=fff&name='.urlencode($this->name);
+        }
+    }
+
+    /**
+     * add attribute age
+     *
+     * @return int
+     */
+    public function getAgeAttribute(){
+
+        return $this->date_of_birth ? Carbon::parse($this->date_of_birth)->diffForHumans(now()) : '-- years';
+    }
+
+    /**
+     * add attribute next_birthday_in
+     *
+     * @return string
+     */
+    public function getNextBirthdayInAttribute(){
+        if($this->date_of_birth){
+            $dob = Carbon::parse($this->date_of_birth);
+            $dob->year = now()->year;
+            if($dob->lt(now())){
+                $dob->year = now()->year + 1;
+            }
+            return $dob->diffForHumans(now());
+        }else{
+            return '--';
+        }
+    }
+
+
 
 
     /**
@@ -64,17 +116,33 @@ class User extends Authenticatable
      */
     public function getIsAdminAttribute()
     {
+        $whitelist = config('config.admin.in');
+
+        if(is_string($whitelist)){
+            $whitelist = explode(',', $whitelist);
+        }
+
         if(config('config.admin.identification') == 'email'){
-            return in_array($this->email, config('config.admin.in'));
+            return in_array($this->email, $whitelist);
         }else{
             foreach($this->teams->pluck('name') as $name){
-                if(in_array($name, config('config.admin.in'))){
+
+                if(in_array($name, $whitelist)){
                     return true;
                 }
             }
             return false;
         }
 
+    }
+
+    /**
+     * add attribute joined_since
+     *
+     * @return string
+     */
+    public function getJoinedSinceAttribute(){
+        return $this->created_at->diffForHumans();
     }
 
     /**
@@ -85,6 +153,17 @@ class User extends Authenticatable
     public function teams()
     {
         return $this->hasManyThrough(Team::class, UserTeam::class, 'user_id', 'id', 'id', 'team_id');
+    }
+
+
+    /**
+     * Upload Profile picture
+     */
+
+    public function uploadProfilePicture($file){
+        $path = $file->store('profile-pictures', 'public');
+        $this->__set('profile_picture', $path);
+        $this->save();
     }
 
 }

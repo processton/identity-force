@@ -3,15 +3,21 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class WhatsNext extends Controller
 {
     public function index(Request $request)
     {
-        if($request->user->is_admin){
-            return redirect('dashboard');
+        if(Auth::check()){
+
+            if($request->user()->is_admin){
+                return redirect(route('dashboard'));
+            }else{
+                return redirect(route('profile'));
+            }
         }else{
-            return redirect('profile');
+            return redirect(route('login'));
         }
     }
 }

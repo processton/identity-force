@@ -8,6 +8,10 @@ return [
             'title' => 'Default Theme',
         ],
     ],
-    'paid' => [
+    'premium' => [
+        'processton' => [
+            'views' => 'processton',
+            'title' => 'Processton Theme',
+        ],
     ]
 ];

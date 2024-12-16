@@ -9,13 +9,42 @@
                         <x-application-logo class="block h-9 w-auto fill-current text-gray-800 dark:text-gray-200" />
                     </a>
                 </div>
-
-                <!-- Navigation Links -->
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('Dashboard') }}
-                    </x-nav-link>
-                </div>
+                @auth
+                    @if (auth()->user()->is_admin)
+                        <!-- Navigation Links -->
+                        <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                            <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                                {{ __('Dashboard') }}
+                            </x-nav-link>
+                            <x-nav-link :href="route('admin.users')" :active="request()->routeIs('admin.users')">
+                                {{ __('Users') }}
+                            </x-nav-link>
+                            <x-nav-link :href="route('teams')" :active="request()->routeIs('teams')">
+                                {{ __('Teams') }}
+                            </x-nav-link>
+                            <x-nav-link :href="route('admin.connected-apps')" :active="
+                                request()->routeIs('admin.connected-apps') ||
+                                request()->routeIs('admin.oauth') ||
+                                request()->routeIs('admin.saml') ||
+                                request()->routeIs('admin.socialite')
+                            ">
+                                {{ __('Connected Apps') }}
+                            </x-nav-link>
+                            <x-nav-link :href="route('admin.configurations')" :active="
+                                request()->routeIs('admin.configurations') ||
+                                request()->routeIs('admin.configurations.basic') ||
+                                request()->routeIs('admin.configurations.theme') ||
+                                request()->routeIs('admin.configurations.embed') ||
+                                request()->routeIs('admin.configurations.teams') ||
+                                request()->routeIs('admin.configurations.mfa') ||
+                                request()->routeIs('admin.configurations.admin-identificaiton') ||
+                                request()->routeIs('admin.configurations.email-servers')
+                            ">
+                                {{ __('Configurations') }}
+                            </x-nav-link>
+                        </div>
+                    @endif
+                @endauth
             </div>
 
             <!-- Settings Dropdown -->
@@ -34,7 +63,7 @@
                     </x-slot>
 
                     <x-slot name="content">
-                        <x-dropdown-link :href="route('profile.edit')">
+                        <x-dropdown-link :href="route('profile')" class="text-md">
                             {{ __('Profile') }}
                         </x-dropdown-link>
 
@@ -42,7 +71,7 @@
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
 
-                            <x-dropdown-link :href="route('logout')"
+                            <x-dropdown-link :href="route('logout')"  class="text-md"
                                     onclick="event.preventDefault();
                                                 this.closest('form').submit();">
                                 {{ __('Log Out') }}
@@ -67,9 +96,26 @@
     <!-- Responsive Navigation Menu -->
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                {{ __('Dashboard') }}
-            </x-responsive-nav-link>
+            @auth
+                @if (auth()->user()->is_admin)
+                    <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                        {{ __('Dashboard') }}
+                    </x-responsive-nav-link>
+                    <x-responsive-nav-link :href="route('admin.users')" :active="request()->routeIs('admin.users')">
+                        {{ __('Users') }}
+                    </x-responsive-nav-link>
+                    <x-responsive-nav-link :href="route('teams')" :active="request()->routeIs('teams')">
+                        {{ __('Teams') }}
+                    </x-responsive-nav-link>
+                    <x-responsive-nav-link :href="route('admin.connected-apps')" :active="request()->routeIs('admin.connected-apps')">
+                        {{ __('Connected Apps') }}
+                    </x-responsive-nav-link>
+                    <x-responsive-nav-link :href="route('admin.configurations')" :active="request()->routeIs('admin.configurations')">
+                        {{ __('Configurations') }}
+                    </x-responsive-nav-link>
+                @endif
+            @endauth
+
         </div>
 
         <!-- Responsive Settings Options -->
@@ -80,7 +126,7 @@
             </div>
 
             <div class="mt-3 space-y-1">
-                <x-responsive-nav-link :href="route('profile.edit')">
+                <x-responsive-nav-link :href="route('profile')">
                     {{ __('Profile') }}
                 </x-responsive-nav-link>
 

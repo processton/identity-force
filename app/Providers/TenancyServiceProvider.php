@@ -161,7 +161,25 @@ class TenancyServiceProvider extends ServiceProvider
     {
 
         \Stancl\Tenancy\Features\TenantConfig::$storageToConfigMap = [
-            'theme' => 'theme.active',
+            'theme' => 'config.theme',
+            'name' => 'config.name',
+            'logo' => 'config.logo',
+            'registeration_enabled' => 'config.registeration.enabled',
+            'registeration_email_verification' => 'config.registeration.email_verification',
+            'teams_enabled' => 'config.teams.enabled',
+            'teams_limit_total' => 'config.teams.limit.total',
+            'teams_limit_members' => 'config.teams.limit.members',
+            'teams_limit_per_user' => 'config.teams.limit.per_user',
+            'mfa_policy' => 'config.mfa.policy',
+            'mfa_providers_google' => 'config.mfa.providers.google',
+            'mfa_providers_email' => 'config.mfa.providers.email',
+            'mfa_providers_sms' => 'config.mfa.providers.sms',
+            'admin_identification' => 'config.admin.identification',
+            'admin_in' => 'config.admin.in',
+            'embed_enabled' => 'config.embed.enabled',
+            'embed_login' => 'config.embed.login',
+            'embed_register' => 'config.embed.register',
+            'embed_forgot_password' => 'config.embed.forgot_password',
             'passport_public_key' => 'passport.public_key',
             'passport_private_key' => 'passport.private_key',
         ];
