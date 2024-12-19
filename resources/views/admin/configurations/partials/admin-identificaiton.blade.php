@@ -1,4 +1,4 @@
-<div x-data="identityConfigurationSettings()">
+<div>
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
         <div class="grid grid-cols-1 xl:grid-cols-2 gap-5 lg:gap-7.5">
             <div class="col-span-1">

@@ -15,6 +15,7 @@ use Stancl\Tenancy\Middleware\InitializeTenancyByDomain;
 use Stancl\Tenancy\Middleware\PreventAccessFromCentralDomains;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\WhatsNext;
+use App\Http\Middleware\TeamEnabled;
 use Symfony\Component\HttpKernel\Profiler\Profile;
 
 /*
@@ -46,15 +47,40 @@ Route::middleware([
         'tenant_admin',
     ])->group(function () {
 
-        Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+        Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
 
-        Route::get('/teams', [TeamsController::class, 'index'])->name('teams');
+
+
+        Route::prefix('/teams')->middleware([
+            TeamEnabled::class,
+        ])->group(function () {
+            Route::get('/', [TeamsController::class, 'index'])->name('admin.teams');
+        });
+
 
         Route::prefix('/users')->group(function () {
             Route::get('/', [UsersController::class, 'index'])->name('admin.users');
+
+            Route::post('/block',[UsersController::class, 'blockUser'])->name('admin.users.block');
+            Route::post('/unblock',[UsersController::class, 'unBlockUser'])->name('admin.users.unblock');
+
+
+
             Route::get('/invite', [UsersController::class, 'invite'])->name('admin.users.invite');
+            Route::post('/invite', [UsersController::class, 'store'])->name('admin.users.invite.process');
+
+
+
+
             Route::get('/blocked', [UsersController::class, 'blocked'])->name('admin.users.blocked');
+
+
             Route::get('/black-list', [UsersController::class, 'blackList'])->name('admin.users.black_list');
+            Route::post('/black-list', [UsersController::class, 'blackList'])->name('admin.users.black_list.process');
+            Route::post('/black-list/{id}', [UsersController::class, 'blackListRemove'])->name('admin.users.black_list.delete');
+
+
+
             Route::post('/', [UsersController::class, 'store'])->name('admin.users.store');
             Route::get('/{user}/edit', [UsersController::class, 'edit'])->name('admin.users.edit');
             Route::patch('/{user}', [UsersController::class, 'update'])->name('admin.users.update');
@@ -64,14 +90,11 @@ Route::middleware([
         Route::prefix('/connected-apps')->group(function () {
 
             Route::get('/', [ConnectedAppsController::class, 'index'])->name('admin.connected-apps');
-            Route::prefix('/o-auth-2-0')->group(function () {
-                Route::get('/', [OAuthController::class, 'index'])->name('admin.oauth');
-            });
-            Route::prefix('/saml')->group(function () {
-                Route::get('/', [SAMLController::class, 'index'])->name('admin.saml');
-            });
             Route::prefix('/socialite')->group(function () {
                 Route::get('/', [SocialConnectionsController::class, 'index'])->name('admin.socialite');
+            });
+            Route::prefix('/external-idp')->group(function () {
+                Route::get('/', [SocialConnectionsController::class, 'index'])->name('admin.external-idp');
             });
 
         });

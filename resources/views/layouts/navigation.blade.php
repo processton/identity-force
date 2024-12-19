@@ -1,36 +1,36 @@
-<nav x-data="{ open: false }" class="bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700">
+<nav x-data="{ open: false }" class="{{ request()->routeIs('admin.*') ? 'bg-black dark:bg-gray-800' : 'bg-white dark:bg-gray-800' }} border-b border-gray-100 dark:border-gray-700">
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
             <div class="flex">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
-                    <a href="{{ route('dashboard') }}">
+                    <a href="{{ route('admin.dashboard') }}">
                         <x-application-logo class="block h-9 w-auto fill-current text-gray-800 dark:text-gray-200" />
                     </a>
                 </div>
                 @auth
-                    @if (auth()->user()->is_admin)
+                    @if (auth()->user()->is_admin && request()->routeIs('admin.*'))
                         <!-- Navigation Links -->
                         <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                            <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                            <x-admin-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.dashboard')">
                                 {{ __('Dashboard') }}
-                            </x-nav-link>
-                            <x-nav-link :href="route('admin.users')" :active="request()->routeIs('admin.users')">
+                            </x-admin-link>
+                            <x-admin-link :href="route('admin.users')" :active="request()->routeIs('admin.users')">
                                 {{ __('Users') }}
-                            </x-nav-link>
-                            <x-nav-link :href="route('teams')" :active="request()->routeIs('teams')">
+                            </x-admin-link>
+                            <x-admin-link x-show="{{ config('config.teams.enabled') }}" :href="route('admin.teams')" :active="request()->routeIs('admin.teams')">
                                 {{ __('Teams') }}
-                            </x-nav-link>
-                            <x-nav-link :href="route('admin.connected-apps')" :active="
+                            </x-admin-link>
+                            <x-admin-link :href="route('admin.connected-apps')" :active="
                                 request()->routeIs('admin.connected-apps') ||
                                 request()->routeIs('admin.oauth') ||
                                 request()->routeIs('admin.saml') ||
                                 request()->routeIs('admin.socialite')
                             ">
                                 {{ __('Connected Apps') }}
-                            </x-nav-link>
-                            <x-nav-link :href="route('admin.configurations')" :active="
+                            </x-admin-link>
+                            <x-admin-link :href="route('admin.configurations')" :active="
                                 request()->routeIs('admin.configurations') ||
                                 request()->routeIs('admin.configurations.basic') ||
                                 request()->routeIs('admin.configurations.theme') ||
@@ -41,7 +41,7 @@
                                 request()->routeIs('admin.configurations.email-servers')
                             ">
                                 {{ __('Configurations') }}
-                            </x-nav-link>
+                            </x-admin-link>
                         </div>
                     @endif
                 @endauth
@@ -66,6 +66,14 @@
                         <x-dropdown-link :href="route('profile')" class="text-md">
                             {{ __('Profile') }}
                         </x-dropdown-link>
+
+                        @auth
+                            @if (auth()->user()->is_admin)
+                                <x-dropdown-link :href="route('admin.dashboard')" class="text-md">
+                                    {{ __('Admin') }}
+                                </x-dropdown-link>
+                            @endif
+                        @endauth
 
                         <!-- Authentication -->
                         <form method="POST" action="{{ route('logout') }}">
@@ -97,14 +105,14 @@
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
             @auth
-                @if (auth()->user()->is_admin)
-                    <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                @if (auth()->user()->is_admin && request()->routeIs('admin.*'))
+                    <x-responsive-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.dashboard')">
                         {{ __('Dashboard') }}
                     </x-responsive-nav-link>
                     <x-responsive-nav-link :href="route('admin.users')" :active="request()->routeIs('admin.users')">
                         {{ __('Users') }}
                     </x-responsive-nav-link>
-                    <x-responsive-nav-link :href="route('teams')" :active="request()->routeIs('teams')">
+                    <x-responsive-nav-link :href="route('admin.teams')" :active="request()->routeIs('admin.teams')">
                         {{ __('Teams') }}
                     </x-responsive-nav-link>
                     <x-responsive-nav-link :href="route('admin.connected-apps')" :active="request()->routeIs('admin.connected-apps')">
@@ -129,6 +137,13 @@
                 <x-responsive-nav-link :href="route('profile')">
                     {{ __('Profile') }}
                 </x-responsive-nav-link>
+                @auth
+                    @if (auth()->user()->is_admin)
+                    <x-responsive-nav-link :href="route('profile')">
+                        {{ __('Admin') }}
+                    </x-responsive-nav-link>
+                    @endif
+                @endauth
 
                 <!-- Authentication -->
                 <form method="POST" action="{{ route('logout') }}">

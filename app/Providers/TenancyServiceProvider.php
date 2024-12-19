@@ -182,6 +182,15 @@ class TenancyServiceProvider extends ServiceProvider
             'embed_forgot_password' => 'config.embed.forgot_password',
             'passport_public_key' => 'passport.public_key',
             'passport_private_key' => 'passport.private_key',
+            'mailer_driver' => 'config.mailer.driver',
+            'mailer_from_name' => 'config.mailer.from_name',
+            'mailer_from_address' => 'config.mailer.from_address',
+            'mailer_host' => 'config.mailer.host',
+            'mailer_port' => 'config.mailer.port',
+            'mailer_username' => 'config.mailer.username',
+            'mailer_password' => 'config.mailer.password',
+            'mailer_encryption' => 'config.mailer.encryption',
+
         ];
     }
 

@@ -102,18 +102,78 @@
                                 </td>
                                 <td class="px-4">
                                     <div class="flex w-full justify-center gap-1">
-                                        <a class="p-1 bg-gray-400 border border-gray-300 cursor-pointer text-gray-600 flex-inline rounded-sm text-sm h-8 w-8 text-center">
-                                            <i class="fa-solid fa-eye align-middle"></i>
-                                        </a>
-                                        <a class="p-1 bg-red-400 border border-red-300 cursor-pointer text-white flex-inline rounded-sm text-sm h-8 w-8 text-center">
-                                            <i class="fa-solid fa-ban align-middle"></i>
-                                        </a>
-                                        <a class="p-1 bg-orange-400 border border-orange-300 cursor-pointer text-gray-600 flex-inline rounded-sm text-sm h-8 w-8 text-center">
-                                            <i class="fa-solid fa-envelope-circle-check align-middle"></i>
-                                        </a>
-                                        <a class="p-1 bg-amber-400 border border-amber-300 cursor-pointer text-gray-800 flex-inline rounded-sm text-sm h-8 w-8 text-center">
-                                            <i class="fa-solid fa-passport align-middle"></i>
-                                        </a>
+                                        @if(!$user->is_admin)
+                                            @if ($user->is_active)
+                                                <button
+                                                    class="p-1 bg-red-400 border border-red-300 cursor-pointer text-white flex-inline rounded-sm text-sm h-8 w-8 text-center"
+                                                    x-data=""
+                                                    x-on:click.prevent="$dispatch('open-modal', 'confirm-user-block-{{$user->id}}')"
+                                                >
+                                                    <i class="fa-solid fa-ban align-middle"></i>
+                                                </button>
+
+                                                <x-modal name="confirm-user-block-{{$user->id}}" focusable>
+                                                    <form method="post" action="{{ route('admin.users.block') }}" class="p-6">
+                                                        @csrf
+
+                                                        <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
+                                                            {{ __('Are you sure you want to delete your account?') }}
+                                                        </h2>
+
+                                                        <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
+                                                            {{ __('Once your account is deleted, all of its resources and data will be permanently deleted. Please enter your password to confirm you would like to permanently delete your account.') }}
+                                                        </p>
+                                                        <input type="hidden" name="user_id" value="{{$user->id}}">
+                                                        <div class="mt-6 flex justify-end">
+                                                            <x-secondary-button x-on:click="$dispatch('close')">
+                                                                {{ __('Cancel') }}
+                                                            </x-secondary-button>
+
+                                                            <x-danger-button class="ms-3">
+                                                                {{ __('Block Account') }}
+                                                            </x-danger-button>
+                                                        </div>
+                                                    </form>
+                                                </x-modal>
+
+                                            @else
+
+                                                <button
+                                                    class="p-1 bg-gree-400 border border-gree-300 cursor-pointer text-white flex-inline rounded-sm text-sm h-8 w-8 text-center"
+                                                    x-data=""
+                                                    x-on:click.prevent="$dispatch('open-modal', 'confirm-user-unblock-{{$user->id}}')"
+                                                >
+                                                    <i class="fa-solid fa-ban align-middle"></i>
+                                                </button>
+
+                                                <x-modal name="confirm-user-unblock-{{$user->id}}" focusable>
+                                                    <form method="post" action="{{ route('admin.users.unblock') }}" class="p-6">
+                                                        @csrf
+
+                                                        <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
+                                                            {{ __('Are you sure you want to delete your account?') }}
+                                                        </h2>
+
+                                                        <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
+                                                            {{ __('Once your account is deleted, all of its resources and data will be permanently deleted. Please enter your password to confirm you would like to permanently delete your account.') }}
+                                                        </p>
+                                                        <input type="hidden" name="user_id" value="{{$user->id}}">
+                                                        <div class="mt-6 flex justify-end">
+                                                            <x-secondary-button x-on:click="$dispatch('close')">
+                                                                {{ __('Cancel') }}
+                                                            </x-secondary-button>
+
+                                                            <x-danger-button class="ms-3">
+                                                                {{ __('Block Account') }}
+                                                            </x-danger-button>
+                                                        </div>
+                                                    </form>
+                                                </x-modal>
+
+
+                                            @endif
+                                        @endif
+
                                     </div>
                                 </td>
                             </tr>

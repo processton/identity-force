@@ -46,8 +46,8 @@ class ConfigurationsController extends Controller
                 ...config('themes.premium'),
             ])->map(function($theme){
                 return [
-                    'key' => $theme['title'],
-                    'label' => $theme['views'],
+                    'label' => $theme['title'],
+                    'key' => $theme['views'],
                 ];
             });
         return view('admin.configurations.theme', [
@@ -76,12 +76,13 @@ class ConfigurationsController extends Controller
     }
 
     public function mfa(){
+
         return view('admin.configurations.mfa', [
             'mfa_policy' => config('config.mfa.policy'),
             'mfa_policies' => [
                 [
                     'key' => 'disabled',
-                    'label' => 'Required',
+                    'label' => 'Disabled',
                 ],
                 [
                     'key' => 'relaxed',
@@ -119,6 +120,37 @@ class ConfigurationsController extends Controller
         ]);
     }
 
+    public function emailServers(){
+        return view('admin.configurations.email-servers',[
+            'mailer_driver' => config('config.mailer.driver'),
+            'mailer_drivers' => [
+                [
+                    'key' => 'smtp',
+                    'label' => 'SMTP',
+                ],
+                [
+                    'key' => 'mailgun',
+                    'label' => 'Mailgun',
+                ],
+                [
+                    'key' => 'sendgrid',
+                    'label' => 'Sendgrid',
+                ],
+                [
+                    'key' => 'ses',
+                    'label' => 'SES',
+                ]
+            ],
+            'mailer_host' => config('config.mailer.host'),
+            'mailer_port' => config('config.mailer.port'),
+            'mailer_user' => config('config.mailer.user'),
+            'mailer_password' => config('config.mailer.password'),
+            'mailer_encryption' => config('config.mailer.encryption'),
+            'mailer_from_address' => config('config.mailer.address'),
+            'mailer_from_name' => config('config.mailer.from'),
+        ]);
+    }
+
     public function uploadLogo(){
 
     }
@@ -126,27 +158,7 @@ class ConfigurationsController extends Controller
     public function update(ConfigurationsRequest $request)
     {
         $config = $request->validated();
-        $configItems = [
-            'theme',
-            'name',
-            'logo',
-            'registeration_enabled',
-            'registeration_email_verification',
-            'teams_enabled',
-            'teams_limit_total',
-            'teams_limit_members',
-            'teams_limit_per_user',
-            'mfa_policy',
-            'mfa_providers_google',
-            'mfa_providers_email',
-            'mfa_providers_sms',
-            'admin_identification',
-            'admin_in',
-            'embed_enabled',
-            'embed_login',
-            'embed_register',
-            'embed_forgot_password'
-        ];
+        $configItems = array_keys($request->rules());
         $data = [];
         foreach ($config as $key => $value) {
 

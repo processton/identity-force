@@ -35,12 +35,21 @@ class ConfigurationsRequest extends FormRequest
             'mfa_providers_google' => ['nullable', 'boolean', 'max:1'],
             'mfa_providers_email' => ['nullable', 'boolean', 'max:1'],
             'mfa_providers_sms' => ['nullable', 'boolean', 'max:1'],
-            'admin_identification' => ['nullable', 'boolean', 'max:1'],
+            'admin_identification' => ['nullable', 'string', 'in:email,team'],
             'admin_in' => ['nullable', 'string', 'max:256'],
             'embed_enabled' => ['nullable', 'boolean', 'max:1'],
             'embed_login' => ['nullable', 'boolean', 'max:1'],
             'embed_register' => ['nullable', 'boolean', 'max:1'],
             'embed_forgot_password' => ['nullable', 'boolean', 'max:1'],
+            'mailer_driver' => ['nullable', 'string', 'max:256'],
+            'mailer_from_name' => ['nullable', 'string', 'max:256'],
+            'mailer_from_address' => ['nullable', 'string', 'max:256'],
+            'mailer_host' => ['nullable', 'string', 'max:256'],
+            'mailer_port' => ['nullable', 'int'],
+            'mailer_username' => ['nullable', 'string', 'max:256'],
+            'mailer_password' => ['nullable', 'string', 'max:256'],
+            'mailer_encryption' => ['nullable', 'string', 'max:256'],
+
         ];
     }
 }

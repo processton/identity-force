@@ -2,19 +2,19 @@
 
 <div class="hover-container w-full flex flex-row gap-2"  x-data="editableInput('{{ $value }}', '{{ $field }}', '{{ $link }}', $dispatch)">
 
-    <div class="inline-block gap-2 flex-1 flex">
-        <input x-model="value" x-ref="field" x-bind:disabled="!isEditing" class="p-1 flex-1 text-sm border-none border-bottom border-gray-400 focus:border-gray-400 focus:ring-0" @keydown.enter="save()" @keydown.escape="cancel()">
-        <button @click="save()" x-show="isEditing" class="flex-0"><i class="fa-solid fa-circle-check text-green-500"></i></button>
-        <button @click="cancel()" x-show="isEditing" class="flex-0"><i class="fa-solid fa-circle-xmark text-orange-500"></i></button>
+    <div class="inline-block gap-2 flex-1 flex w-10/12">
+        <input x-model="value" x-ref="field" x-bind:disabled="!isEditing" class="p-1 w-10/12 flex-1 text-sm border-none border-bottom border-gray-400 focus:border-gray-400 focus:ring-0" @keydown.enter="save()" @keydown.escape="cancel()">
+        <button @click="save()" x-show="isEditing" x-transition class="flex-0"><i class="fa-solid fa-circle-check text-green-500"></i></button>
+        <button @click="cancel()" x-show="isEditing" x-transition class="flex-0"><i class="fa-solid fa-circle-xmark text-orange-500"></i></button>
     </div>
 
-    <button x-show="isDirty" class="flex-0">
+    <button x-show="isDirty" class="flex-0" x-transition>
         <i class="fa-solid fa-worm text-red-400"></i>
     </button>
-    <button x-show="inProgress" class="flex-0">
+    <button x-show="inProgress" class="flex-0" x-transition>
         <i class="fa-solid fa-spinner text-grey-500"></i>
     </button>
-    <button @click="edit()" class="flex-0 hover-item"><i class="fa-solid fa-pen-to-square"></i></button>
+    <button @click="edit()" class="flex-0 hover-item-opacity"><i class="fa-solid fa-pen-to-square"></i></button>
 </div>
 
 <script>

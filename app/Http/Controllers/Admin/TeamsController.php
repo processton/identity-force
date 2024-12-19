@@ -12,7 +12,7 @@ class TeamsController extends Controller
     {
         $paginated = Team::paginate(10);
 
-        return view('admin.teams', [
+        return view('admin.teams.list', [
             'teams' => $paginated
         ]);
     }

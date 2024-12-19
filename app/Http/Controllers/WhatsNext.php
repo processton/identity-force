@@ -12,7 +12,7 @@ class WhatsNext extends Controller
         if(Auth::check()){
 
             if($request->user()->is_admin){
-                return redirect(route('dashboard'));
+                return redirect(route('admin.dashboard'));
             }else{
                 return redirect(route('profile'));
             }

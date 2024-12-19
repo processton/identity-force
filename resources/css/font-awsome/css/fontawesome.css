@@ -1868,7 +1868,7 @@ readers do not read off random characters that represent icons */
   --fa: "\f624";
   --fa--fa: "\f624\f624"; }
 
-.fa-dashboard {
+.fa-admin.dashboard {
   --fa: "\f624";
   --fa--fa: "\f624\f624"; }
 

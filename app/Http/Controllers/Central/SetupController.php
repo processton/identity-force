@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use phpseclib\Crypt\RSA as LegacyRSA;
 use phpseclib3\Crypt\RSA;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\DB;
 
 class SetupController extends Controller
 {
@@ -34,17 +35,25 @@ class SetupController extends Controller
             $data['passport_private_key'] = (string) $key;
         }
 
-        $tenant = Tenant::create([
-            'id' => $data['id'],
-            'theme' => $data['theme'] ?? 'default',
-            'passport_public_key' => $data['passport_public_key'],
-            'passport_private_key' => $data['passport_private_key'],
-        ]);
+        try{
 
-        $tenant->domains()->create([
-            'domain' => $data['domain'],
-        ]);
+            $tenant = Tenant::create([
+                'id' => $data['id'],
+                'theme' => $data['theme'] ?? 'default',
+                'passport_public_key' => $data['passport_public_key'],
+                'passport_private_key' => $data['passport_private_key'],
+            ]);
 
-        return response()->json($tenant);
+            $tenant->domains()->create([
+                'domain' => $data['domain'],
+            ]);
+
+            return response()->json($tenant);
+
+        }catch(\Exception $e){
+
+            return response()->json(['message' => $e->getMessage()], 500);
+        }
+
     }
 }

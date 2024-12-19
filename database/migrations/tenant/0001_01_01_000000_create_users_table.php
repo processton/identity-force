@@ -24,6 +24,8 @@ return new class extends Migration
             $table->dateTime('last_activity')->nullable();
             $table->string('last_ip')->default('-.-.-.-');
             $table->string('last_country')->default('--');
+            $table->tinyInteger('is_active')->default(1);
+            $table->string('notification')->nullable()->comment('Message why account is blocked');
             $table->rememberToken();
             $table->timestamps();
         });

@@ -10,6 +10,15 @@
     display: none;
 }
 
+.hover-container .hover-item-opacity{
+    opacity: 0;
+    transition: opacity 0.5s;
+}
+
 .hover-container:hover .hover-item {
     display: block;
+}
+
+.hover-container:hover .hover-item-opacity{
+    opacity: 1;
 }

@@ -94,4 +94,31 @@ return [
         'forgot_password' => true,
     ],
 
+    // Mailer settings
+    'mailer' => [
+
+        // Mailer driver
+        'driver' => 'smtp',
+
+        // Mailer from name
+        'from_name' => 'Processton',
+
+        // Mailer from address
+        'from_address' => '',
+
+        // Mailer host
+        'host' => '',
+
+        // Mailer port
+        'port' => 587,
+
+        // Mailer username
+        'username' => '',
+
+        // Mailer password
+        'password' => '',
+
+        // Mailer encryption
+        'encryption' => 'tls',
+    ],
 ];

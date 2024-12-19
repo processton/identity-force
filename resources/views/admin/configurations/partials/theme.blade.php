@@ -1,4 +1,4 @@
-<div x-data="basicConfigurationSettings()">
+<div >
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
         <div class="grid grid-cols-1 xl:grid-cols-2 gap-5 lg:gap-7.5">
             <div class="col-span-1">
@@ -13,7 +13,7 @@
                             </div>
                         </div>
                         <div class="mt-6 space-y-6 scrollable-x-auto pb-3">
-                            <table class="table align-middle text-sm text-gray-500">
+                            <table class="table align-middle text-sm text-gray-500 w-full">
                                 <tbody class="divide-y divide-dashed">
                                     <tr class="hover-container">
                                         <td class="py-2 text-gray-600 font-normal">Theme</td>

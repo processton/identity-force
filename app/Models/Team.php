@@ -2,8 +2,11 @@
 
 namespace App\Models;
 
+use App\Observers\TeamObserver;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 
+#[ObservedBy([TeamObserver::class])]
 class Team extends Model
 {
     /**
@@ -40,4 +43,16 @@ class Team extends Model
             return 'https://ui-avatars.com/api/?background='.$this->color.'&&size=128&color=fff&name='.urlencode($this->name);
         }
     }
+
+    /**
+     * Team members
+     *
+     * return \Illuminate\Database\Eloquent\Relations\HasManyThrough
+     */
+
+    public function members(){
+        return $this->hasManyThrough(User::class, UserTeam::class, 'team_id', 'id', 'id', 'user_id');
+    }
+
+
 }
