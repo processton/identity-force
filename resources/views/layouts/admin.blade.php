@@ -27,6 +27,30 @@
                 </header>
             @endisset
 
+            @foreach ([
+                'success' => 'bg-lime-100 text-lime-900',
+                'error' => 'bg-red-100 text-red-900',
+                'warning' => 'bg-yellow-100 text-yellow-900',
+                'info' => 'bg-blue-100 text-blue-900',
+            ] as $key=> $class )
+                @session($key)
+                    <div class="w-full {{$class}}">
+                        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                            <div x-cloak
+                                x-show="showAlert"
+                                x-data="{ showAlert: true }"
+                                x-init="setTimeout(() => showAlert = false, 120000)"
+                                role="alert"
+                                class="p-1 flex w-full">
+                                <div class="flex-1">{{ $value }}</div>
+                                <button @click="showAlert = false" type="button" class="flex-0">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                @endsession
+            @endforeach
             <!-- Page Content -->
             <main>
                 {{ $slot }}

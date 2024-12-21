@@ -60,38 +60,36 @@ Route::middleware([
 
         Route::prefix('/users')->group(function () {
             Route::get('/', [UsersController::class, 'index'])->name('admin.users');
-
             Route::post('/block',[UsersController::class, 'blockUser'])->name('admin.users.block');
             Route::post('/unblock',[UsersController::class, 'unBlockUser'])->name('admin.users.unblock');
-
-
-
             Route::get('/invite', [UsersController::class, 'invite'])->name('admin.users.invite');
             Route::post('/invite', [UsersController::class, 'store'])->name('admin.users.invite.process');
-
-
-
-
             Route::get('/blocked', [UsersController::class, 'blocked'])->name('admin.users.blocked');
-
-
             Route::get('/black-list', [UsersController::class, 'blackList'])->name('admin.users.black_list');
             Route::post('/black-list', [UsersController::class, 'blackList'])->name('admin.users.black_list.process');
             Route::post('/black-list/{id}', [UsersController::class, 'blackListRemove'])->name('admin.users.black_list.delete');
-
-
-
-            Route::post('/', [UsersController::class, 'store'])->name('admin.users.store');
-            Route::get('/{user}/edit', [UsersController::class, 'edit'])->name('admin.users.edit');
-            Route::patch('/{user}', [UsersController::class, 'update'])->name('admin.users.update');
-            Route::delete('/{user}', [UsersController::class, 'destroy'])->name('admin.users.destroy');
         });
 
         Route::prefix('/connected-apps')->group(function () {
 
             Route::get('/', [ConnectedAppsController::class, 'index'])->name('admin.connected-apps');
+            Route::get('/new', [ConnectedAppsController::class, 'create'])->name('admin.connected-apps.create');
+            Route::post('/new', [ConnectedAppsController::class, 'store'])->name('admin.connected-apps.create.process');
+            Route::get('/edit/{id}', [ConnectedAppsController::class, 'edit'])->name('admin.connected-apps.edit');
+            Route::post('/edit/{id}', [ConnectedAppsController::class, 'update'])->name('admin.connected-apps.edit.process');
+
+            Route::get('/view/{id}', [ConnectedAppsController::class, 'show'])->name('admin.connected-apps.view');
+
+            Route::prefix('/oauth')->group(function () {
+                Route::post('/new', [OAuthController::class, 'store'])->name('admin.connected-apps.oauth-client.create');
+                Route::get('/edit/{id}', [OAuthController::class, 'update'])->name('admin.connected-apps.oauth-client.edit');
+            });
+
+
+
             Route::prefix('/socialite')->group(function () {
                 Route::get('/', [SocialConnectionsController::class, 'index'])->name('admin.socialite');
+                Route::post('/update', [SocialConnectionsController::class, 'store'])->name('admin.socialite.update');
             });
             Route::prefix('/external-idp')->group(function () {
                 Route::get('/', [SocialConnectionsController::class, 'index'])->name('admin.external-idp');

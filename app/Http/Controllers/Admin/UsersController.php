@@ -43,7 +43,7 @@ class UsersController extends Controller
 
         $user->save();
 
-        return redirect(route('admin.users.blocked'));
+        return redirect(route('admin.users'));
     }
 
     public function invite()

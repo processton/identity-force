@@ -14,10 +14,12 @@ return new class extends Migration
         Schema::create('connected_apps', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('type');
+            $table->string('type')->nullable();
             $table->unsignedBigInteger('team_id')->nullable();
+            $table->unsignedBigInteger('user_id')->nullable();
 
             $table->foreign('team_id')->references('id')->on('teams')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
             $table->timestamps();
         });
     }

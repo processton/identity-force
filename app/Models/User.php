@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
+use App\Models\OAuth\Client;
 use Carbon\Carbon;
 use App\Observers\UserObserver;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -167,6 +168,41 @@ class User extends Authenticatable
         $path = $file->store('profile-pictures', 'public');
         $this->__set('profile_picture', $path);
         $this->save();
+    }
+
+
+    /**
+     * Get the user's connected apps
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+
+    public function connectedApps(){
+        return $this->hasMany(Client::class);
+    }
+
+    /**
+     * Check if user is allowed for a client
+     *
+     * @param string $client_id
+     * @return bool
+     */
+
+    public function isAllowedForClient($client_id){
+
+        $client = Client::findOrFail($client_id);
+
+        $cap = $client->connectedApp;
+        
+        if(strtolower($cap->type) == 'general'){
+            return true;
+        }else if(strtolower($cap->type) == 'team'){
+            return $this->teams->where('id', $client->team_id)->count() > 0;
+        }else if(strtolower($cap->type) == 'personal'){
+            return $this->id == $client->user_id;
+        }
+
+        return false;
     }
 
 }

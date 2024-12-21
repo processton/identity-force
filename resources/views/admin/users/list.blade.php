@@ -117,12 +117,8 @@
                                                         @csrf
 
                                                         <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
-                                                            {{ __('Are you sure you want to delete your account?') }}
+                                                            {{ __('Are you sure you want to block this account?') }}
                                                         </h2>
-
-                                                        <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
-                                                            {{ __('Once your account is deleted, all of its resources and data will be permanently deleted. Please enter your password to confirm you would like to permanently delete your account.') }}
-                                                        </p>
                                                         <input type="hidden" name="user_id" value="{{$user->id}}">
                                                         <div class="mt-6 flex justify-end">
                                                             <x-secondary-button x-on:click="$dispatch('close')">
@@ -139,7 +135,7 @@
                                             @else
 
                                                 <button
-                                                    class="p-1 bg-gree-400 border border-gree-300 cursor-pointer text-white flex-inline rounded-sm text-sm h-8 w-8 text-center"
+                                                    class="p-1 bg-green-400 border border-green-300 cursor-pointer text-white flex-inline rounded-sm text-sm h-8 w-8 text-center"
                                                     x-data=""
                                                     x-on:click.prevent="$dispatch('open-modal', 'confirm-user-unblock-{{$user->id}}')"
                                                 >
@@ -151,21 +147,17 @@
                                                         @csrf
 
                                                         <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
-                                                            {{ __('Are you sure you want to delete your account?') }}
+                                                            {{ __('Are you sure you want to un-block this account?') }}
                                                         </h2>
-
-                                                        <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
-                                                            {{ __('Once your account is deleted, all of its resources and data will be permanently deleted. Please enter your password to confirm you would like to permanently delete your account.') }}
-                                                        </p>
                                                         <input type="hidden" name="user_id" value="{{$user->id}}">
                                                         <div class="mt-6 flex justify-end">
                                                             <x-secondary-button x-on:click="$dispatch('close')">
                                                                 {{ __('Cancel') }}
                                                             </x-secondary-button>
 
-                                                            <x-danger-button class="ms-3">
-                                                                {{ __('Block Account') }}
-                                                            </x-danger-button>
+                                                            <x-primary-button class="ms-3">
+                                                                {{ __('Un-Block Account') }}
+                                                            </x-primary-button>
                                                         </div>
                                                     </form>
                                                 </x-modal>
