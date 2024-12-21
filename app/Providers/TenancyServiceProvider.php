@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
+use App\Http\Controllers\Auth\CustomAuthorizationController;
+use App\Http\Middleware\OAuthAuthorizr;
 use App\Models\OAuth\AuthCode;
 use App\Models\OAuth\Client;
 use App\Models\OAuth\PersonalAccessClient;
@@ -12,6 +14,7 @@ use App\Models\OAuth\Token;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
+use Laravel\Passport\Http\Controllers\AuthorizationController;
 use Laravel\Passport\Passport;
 use Stancl\JobPipeline\JobPipeline;
 use Stancl\Tenancy\Events;
@@ -161,9 +164,53 @@ class TenancyServiceProvider extends ServiceProvider
     {
 
         \Stancl\Tenancy\Features\TenantConfig::$storageToConfigMap = [
-            'theme' => 'theme.active',
+            'theme' => 'config.theme',
+            'name' => 'config.name',
+            'logo' => 'config.logo',
+            'registeration_enabled' => 'config.registeration.enabled',
+            'registeration_email_verification' => 'config.registeration.email_verification',
+            'teams_enabled' => 'config.teams.enabled',
+            'teams_limit_total' => 'config.teams.limit.total',
+            'teams_limit_members' => 'config.teams.limit.members',
+            'teams_limit_per_user' => 'config.teams.limit.per_user',
+            'mfa_policy' => 'config.mfa.policy',
+            'mfa_providers_google' => 'config.mfa.providers.google',
+            'mfa_providers_email' => 'config.mfa.providers.email',
+            'mfa_providers_sms' => 'config.mfa.providers.sms',
+            'admin_identification' => 'config.admin.identification',
+            'admin_in' => 'config.admin.in',
+            'embed_enabled' => 'config.embed.enabled',
+            'embed_login' => 'config.embed.login',
+            'embed_register' => 'config.embed.register',
+            'embed_forgot_password' => 'config.embed.forgot_password',
             'passport_public_key' => 'passport.public_key',
             'passport_private_key' => 'passport.private_key',
+            'mailer_driver' => 'config.mailer.driver',
+            'mailer_from_name' => 'config.mailer.from_name',
+            'mailer_from_address' => 'config.mailer.from_address',
+            'mailer_host' => 'config.mailer.host',
+            'mailer_port' => 'config.mailer.port',
+            'mailer_username' => 'config.mailer.username',
+            'mailer_password' => 'config.mailer.password',
+            'mailer_encryption' => 'config.mailer.encryption',
+            'socialite_facebook' => 'config.socialite.facebook.enabled',
+            'socialite_facebook_client_id' => 'config.socialite.facebook.client_id',
+            'socialite_facebook_client_secret' => 'config.socialite.facebook.client_secret',
+            'socialite_facebook_redirect' => 'config.socialite.facebook.redirect',
+            'socialite_google' => 'config.socialite.google.enabled',
+            'socialite_google_client_id' => 'config.socialite.google.client_id',
+            'socialite_google_client_secret' => 'config.socialite.google.client_secret',
+            'socialite_google_redirect' => 'config.socialite.google.redirect',
+            'socialite_twitter' => 'config.socialite.twitter.enabled',
+            'socialite_twitter_client_id' => 'config.socialite.twitter.client_id',
+            'socialite_twitter_client_secret' => 'config.socialite.twitter.client_secret',
+            'socialite_twitter_redirect' => 'config.socialite.twitter.redirect',
+            'socialite_linkedin' => 'config.socialite.linkedin.enabled',
+            'socialite_linkedin_client_id' => 'config.socialite.linkedin.client_id',
+            'socialite_linkedin_client_secret' => 'config.socialite.linkedin.client_secret',
+            'socialite_linkedin_redirect' => 'config.socialite.linkedin.redirect',
+
+
         ];
     }
 
@@ -173,12 +220,19 @@ class TenancyServiceProvider extends ServiceProvider
             'as' => 'passport.',
             'middleware' => [
                 InitializeTenancyByDomain::class, // Use tenancy initialization middleware of your choice
-                PreventAccessFromCentralDomains::class,
+                PreventAccessFromCentralDomains::class
             ],
             'prefix' => config('passport.path', 'oauth'),
             'namespace' => 'Laravel\Passport\Http\Controllers',
         ], function () {
             $this->loadRoutesFrom(__DIR__ . "/../../vendor/laravel/passport/src/../routes/web.php");
+            Route::middleware([
+                'web',
+                'auth',
+                OAuthAuthorizr::class
+                ])->group(function () {
+                Route::get('/authorize', [AuthorizationController::class, 'authorize']);
+            });
         });
 
         Passport::hashClientSecrets();

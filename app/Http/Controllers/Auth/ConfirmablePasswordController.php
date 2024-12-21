@@ -16,7 +16,7 @@ class ConfirmablePasswordController extends Controller
      */
     public function show(): View
     {
-        return view('auth.'.config('theme.active').'.confirm-password');
+        return view('auth.'.config('config.theme').'.confirm-password');
     }
 
     /**
@@ -35,6 +35,6 @@ class ConfirmablePasswordController extends Controller
 
         $request->session()->put('auth.password_confirmed_at', time());
 
-        return redirect()->intended(route('dashboard', absolute: false));
+        return redirect()->intended(route('whats-next', absolute: false));
     }
 }

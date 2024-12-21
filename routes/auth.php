@@ -8,6 +8,7 @@ use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
+use App\Http\Controllers\Auth\SocialiteRedirectController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use Illuminate\Support\Facades\Route;
 
@@ -33,6 +34,11 @@ Route::middleware('guest')->group(function () {
 
     Route::post('reset-password', [NewPasswordController::class, 'store'])
         ->name('password.store');
+
+    Route::get('socialite/{method}/redirect', [SocialiteRedirectController::class, 'redirectToSocialite'])
+        ->name('redirect.to.socialite');
+    Route::get('socialite/{method}/callback', [SocialiteRedirectController::class, 'callbackFromSocialite'])
+        ->name('callback.socialite');
 });
 
 Route::middleware('auth')->group(function () {

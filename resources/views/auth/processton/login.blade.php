@@ -1,4 +1,9 @@
 <x-guest-processton-layout>
+    <a href="/">
+        <x-application-logo class="w-20 h-20 fill-current text-gray-500 mx-auto" />
+    </a>
+    <h1 class="text-2xl font-semibold text-black text-center">{{ __('Sign In') }}</h1>
+    @include('auth.processton.socialite')
     <!-- Session Status -->
     <x-auth-session-status class="mb-4" :status="session('status')" />
 
@@ -34,7 +39,7 @@
 
         <div class="flex items-center justify-end mt-4">
             @if (Route::has('password.request'))
-                <a class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800" href="{{ route('password.request') }}">
+                <a class="text-black text-sm hover:underline" href="{{ route('password.request') }}">
                     {{ __('Forgot your password?') }}
                 </a>
             @endif
@@ -43,5 +48,11 @@
                 {{ __('Log in') }}
             </x-primary-button>
         </div>
+         @if (Route::has('register'))
+            <div class="mt-4 text-sm text-gray-600 text-center">
+                <p>{{ __('Dont have an account?') }} <a href="{{route('register')}}" class="text-black hover:underline">{{ __('Register here') }}</a>
+                </p>
+            </div>
+        @endif
     </form>
 </x-guest-processton-layout>

@@ -1,3 +1,24 @@
+
+@import './font-awsome/css/all.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+.hover-container .hover-item {
+    display: none;
+}
+
+.hover-container .hover-item-opacity{
+    opacity: 0;
+    transition: opacity 0.5s;
+}
+
+.hover-container:hover .hover-item {
+    display: block;
+}
+
+.hover-container:hover .hover-item-opacity{
+    opacity: 1;
+}
