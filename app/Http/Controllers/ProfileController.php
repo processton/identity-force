@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\OAuth\Token;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -39,6 +41,8 @@ class ProfileController extends Controller
     {
         return view('profile.login_and_security', [
             'user' => $request->user(),
+            'userSessions' => DB::table('sessions')->where('user_id', $request->user()->id)->get(),
+            'userAccessTokens' => Token::where('user_id', $request->user()->id)->get()
         ]);
     }
 
