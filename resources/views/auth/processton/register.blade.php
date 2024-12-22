@@ -1,4 +1,9 @@
-<x-guest-processton-layout>
+<x-guest-layout>
+    @php
+
+        $embedded = request()->routeIs('embed.register');
+
+    @endphp
     <a href="/">
         <x-application-logo class="w-20 h-20 fill-current text-gray-500 mx-auto" />
     </a>
@@ -53,9 +58,9 @@
         </div>
          @if (Route::has('login'))
             <div class="mt-4 text-sm text-gray-600 text-center">
-                <p>{{ __('Already have an account? ') }}<a href="{{route('login')}}" class="text-black hover:underline">{{ __('Login here') }}</a>
+                <p>{{ __('Already have an account? ') }}<a href="{{ $embedded ? route('embed.login') : route('login') }}" class="text-black hover:underline">{{ __('Login here') }}</a>
                 </p>
             </div>
         @endif
     </form>
-</x-guest-processton-layout>
+</x-guest-layout>
