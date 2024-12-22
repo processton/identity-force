@@ -1,4 +1,9 @@
-<x-guest-processton-layout>
+<x-guest-layout>
+    @php
+
+        $embedded = request()->routeIs('embed.password.request');
+
+    @endphp
     <a href="/">
         <x-application-logo class="w-20 h-20 fill-current text-gray-500 mx-auto" />
     </a>
@@ -23,7 +28,7 @@
         </div>
         <div class="flex items-center justify-end mt-4">
             @if (Route::has('login'))
-                <a class="text-black text-sm hover:underline" href="{{ route('login') }}">
+                <a class="text-black text-sm hover:underline" href="{{ $embedded ? route('embed.login') : route('login') }}">
                     {{ __('Back to login') }}
                 </a>
             @endif
@@ -38,4 +43,4 @@
             </div>
         @endif
     </form>
-</x-guest-processton-layout>
+</x-guest-layout>

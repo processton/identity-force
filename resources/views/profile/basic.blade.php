@@ -1,9 +1,19 @@
 <x-app-layout>
-    <x-slot name="header">
-        @include('profile.navigation')
-    </x-slot>
-    <div class="py-12" x-data="basicProfileViewer()">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
+
+    @php
+
+        $embedded = request()->routeIs('embed.profile.basic');
+
+    @endphp
+
+
+    @if(!$embedded)
+        <x-slot name="header">
+            @include('profile.navigation')
+        </x-slot>
+    @endif
+    <div class="{{ $embedded ? 'p-6' : 'py-12' }}" x-data="basicProfileViewer()">
+        <div class="{{ $embedded ? '' : 'max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6' }}">
             <div class="grid grid-cols-1 xl:grid-cols-2 gap-5 lg:gap-7.5">
                 <div class="col-span-1">
                     <div class="grid gap-5 lg:gap-7.5">
