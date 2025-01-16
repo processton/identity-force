@@ -143,6 +143,11 @@ class TenancyServiceProvider extends ServiceProvider
                 Route::namespace(static::$controllerNamespace)
                     ->group(base_path('routes/embed.php'));
             }
+            if (file_exists(base_path('routes/api.php'))) {
+                Route::namespace(static::$controllerNamespace)
+                    ->prefix('api')
+                    ->group(base_path('routes/api.php'));
+            }
         });
     }
 
@@ -231,8 +236,6 @@ class TenancyServiceProvider extends ServiceProvider
         ], function () {
             $this->loadRoutesFrom(__DIR__ . "/../../vendor/laravel/passport/src/../routes/web.php");
             Route::middleware([
-                'web',
-                'auth',
                 OAuthAuthorizr::class
                 ])->group(function () {
                     Route::get('/authorize', [AuthorizationController::class, 'authorize']);

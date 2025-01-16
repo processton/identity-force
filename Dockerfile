@@ -65,7 +65,7 @@ RUN yarn build
 # Artisan:
 #####################################
 
-RUN php artisan migrate
+RUN php artisan migrate:fresh
 RUN php artisan config:clear
 RUN php artisan cache:clear
 
@@ -79,3 +79,5 @@ RUN service nginx start
 RUN service php8.3-fpm start
 
 EXPOSE 80 443
+
+CMD ["/usr/bin/supervisord"]

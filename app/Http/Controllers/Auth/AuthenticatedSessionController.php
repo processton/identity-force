@@ -28,6 +28,14 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
+        $client = $request->session()->pull('client', []);
+
+        if($client){
+            return redirect(
+                route('passport.authorizations.authorize', $client)
+            );
+        }
+
         return redirect()->intended(route('whats-next', absolute: false));
     }
 

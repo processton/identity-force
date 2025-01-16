@@ -1,8 +1,8 @@
 
     @php
-        $socialites = array_filter(config('config.socialite'), function($value) {
+        $socialites = config('config.socialite') ? array_filter(config('config.socialite'), function($value) {
             return $value['enabled'] == true;
-        });
+        }) : [];
     @endphp
 
 
