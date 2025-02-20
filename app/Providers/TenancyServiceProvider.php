@@ -11,7 +11,10 @@ use App\Models\OAuth\Client;
 use App\Models\OAuth\PersonalAccessClient;
 use App\Models\OAuth\RefreshToken;
 use App\Models\OAuth\Token;
+use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Passport\Http\Controllers\AuthorizationController;
@@ -134,7 +137,16 @@ class TenancyServiceProvider extends ServiceProvider
 
     protected function mapRoutes()
     {
+        RateLimiter::for('api', function (Request $request) {
+            return Limit::perMinute(60);
+        });
+
         $this->app->booted(function () {
+            if (file_exists(base_path('routes/api.php'))) {
+                Route::namespace(static::$controllerNamespace)
+                    ->middleware('api')
+                    ->group(base_path('routes/api.php'));
+            }
             if (file_exists(base_path('routes/tenant.php'))) {
                 Route::namespace(static::$controllerNamespace)
                     ->group(base_path('routes/tenant.php'));

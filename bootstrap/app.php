@@ -16,6 +16,10 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->appendToGroup('tenant_admin', [
             IsTenantAdmin::class
         ]);
+        $middleware->validateCsrfTokens(except: [
+            '/tenant/register',
+            '/integration/*'
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //
