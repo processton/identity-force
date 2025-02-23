@@ -5,10 +5,10 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Laravel\Passport\Token;
-use Illuminate\Support\Str;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
-use Firebase\JWT\JWT;
+use Lcobucci\JWT\Configuration;
+use Lcobucci\JWT\Parser;
 
 class PassportAuth
 {
@@ -20,7 +20,9 @@ class PassportAuth
         // Get the user ID linked to this token
         $tokenData = DB::table('oauth_access_tokens')->where('id', hash('sha256', $token))->first();
 
-        return response()->json([$request->bearerToken(), decrypt($token), $token], 401);
+        $parsedToken  = (new Parser())->parse($token);
+
+        return response()->json([$parsedToken, $request->bearerToken(), decrypt($token), $token], 401);
 
         if (!$tokenData || $tokenData->revoked) {
             return response()->json(['error' => 'Unauthorized. Invalid or revoked token.'], 401);

@@ -145,6 +145,7 @@ class TenancyServiceProvider extends ServiceProvider
             if (file_exists(base_path('routes/api.php'))) {
                 Route::namespace(static::$controllerNamespace)
                     ->middleware('api')
+                    ->prefix('api')
                     ->group(base_path('routes/api.php'));
             }
             if (file_exists(base_path('routes/tenant.php'))) {
@@ -255,11 +256,11 @@ class TenancyServiceProvider extends ServiceProvider
         Passport::refreshTokensExpireIn(now()->addDays(30));
         Passport::personalAccessTokensExpireIn(now()->addMonths(6));
 
-        Passport::useTokenModel(Token::class);
-        Passport::useRefreshTokenModel(RefreshToken::class);
-        Passport::useAuthCodeModel(AuthCode::class);
-        Passport::useClientModel(Client::class);
-        Passport::usePersonalAccessClientModel(PersonalAccessClient::class);
+        // Passport::useTokenModel(Token::class);
+        // Passport::useRefreshTokenModel(RefreshToken::class);
+        // Passport::useAuthCodeModel(AuthCode::class);
+        // Passport::useClientModel(Client::class);
+        // Passport::usePersonalAccessClientModel(PersonalAccessClient::class);
 
     }
 }

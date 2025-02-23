@@ -23,5 +23,6 @@ class AppServiceProvider extends ServiceProvider
         Event::listen(function (\SocialiteProviders\Manager\SocialiteWasCalled $event) {
             $event->extendSocialite('facebook', \SocialiteProviders\Facebook\Provider::class);
         });
+
     }
 }

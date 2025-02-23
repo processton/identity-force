@@ -18,9 +18,8 @@ class OAuthAuthorizr
     {
         if($request->getPathInfo() == '/oauth/authorize'){
 
-            
+
             if(Auth::check()){
-            
                 if($request->user()->isAllowedForClient($request->client_id)){
                     return $next($request);
                 }
@@ -28,9 +27,11 @@ class OAuthAuthorizr
                 abort(403);
             }
 
+        }else{
+
+
+            return $next($request);
         }
 
-
-        return $next($request);
     }
 }

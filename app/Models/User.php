@@ -82,6 +82,7 @@ class User extends Authenticatable
         }
     }
 
+
     /**
      * add attribute age
      *
@@ -193,7 +194,7 @@ class User extends Authenticatable
         $client = Client::findOrFail($client_id);
 
         $cap = $client->connectedApp;
-        
+
         if(strtolower($cap->type) == 'general'){
             return true;
         }else if(strtolower($cap->type) == 'team'){
