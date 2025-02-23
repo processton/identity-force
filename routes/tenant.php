@@ -39,7 +39,7 @@ Route::middleware([
 
     Route::get('/', function () {
         return redirect('whats-next');
-    });
+    })->name('home');
 
     Route::prefix('admin')->middleware([
         'auth',

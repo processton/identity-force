@@ -16,7 +16,7 @@ return [
     |
     */
 
-    'default' => env('IDENTITY_DB_CONNECTION', 'sqlite'),
+    'default' => env('DB_CONNECTION', 'sqlite'),
 
     /*
     |--------------------------------------------------------------------------
@@ -34,7 +34,7 @@ return [
         'sqlite' => [
             'driver' => 'sqlite',
             'url' => env('DB_URL'),
-            'database' => env('IDENTITY_DB_DATABASE', database_path('laravel.db')),
+            'database' => env('DB_DATABASE', database_path('laravel.db')),
             'prefix' => '',
             'foreign_key_constraints' => env('DB_FOREIGN_KEYS', true),
             'busy_timeout' => null,
@@ -44,15 +44,15 @@ return [
 
         'mysql' => [
             'driver' => 'mysql',
-            'url' => env('IDENTITY_DB_URL'),
-            'host' => env('IDENTITY_DB_HOST', '127.0.0.1'),
-            'port' => env('IDENTITY_DB_PORT', '3306'),
-            'database' => env('IDENTITY_DB_DATABASE', 'laravel'),
-            'username' => env('IDENTITY_DB_USERNAME', 'root'),
-            'password' => env('IDENTITY_DB_PASSWORD', ''),
-            'unix_socket' => env('IDENTITY_DB_SOCKET', ''),
-            'charset' => env('IDENTITY_DB_CHARSET', 'utf8mb4'),
-            'collation' => env('IDENTITY_DB_COLLATION', 'utf8mb4_unicode_ci'),
+            'url' => env('DB_URL'),
+            'host' => env('DB_HOST', '127.0.0.1'),
+            'port' => env('DB_PORT', '3306'),
+            'database' => env('DB_DATABASE', 'laravel'),
+            'username' => env('DB_USERNAME', 'root'),
+            'password' => env('DB_PASSWORD', ''),
+            'unix_socket' => env('DB_SOCKET', ''),
+            'charset' => env('DB_CHARSET', 'utf8mb4'),
+            'collation' => env('DB_COLLATION', 'utf8mb4_unicode_ci'),
             'prefix' => '',
             'prefix_indexes' => true,
             'strict' => true,

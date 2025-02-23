@@ -64,6 +64,7 @@ class SetupController extends Controller
                 'teams_limit_per_user' => 3,
                 'admin_identification' => $data['ADMIN_IDENTIFIED_BY'],
                 'admin_in' => $data['ADMIN_IDENTIFIED_BY'] == 'Team' ? $data['ADMIN_TEAM_NAME'] : $data['ADMIN_EMAILS'],
+                'team_name' => $data['ADMIN_TEAM_NAME'],
 
             ]);
 
